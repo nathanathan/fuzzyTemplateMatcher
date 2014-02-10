@@ -48,7 +48,6 @@ window.match = function() {
     end: 0
   };
   result.vars.forEach(function(v, i) {
-    v.value = stringyString.slice(v.start, v.end);
     markedUpInput += stringyString.slice(prevVar.end, v.start);
     markedUpInput += "{{" + stringyString.slice(v.start, v.end) + "}}";
     prevVar = v;
