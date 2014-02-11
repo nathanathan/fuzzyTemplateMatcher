@@ -22,9 +22,14 @@ Making the cost less than one provides an incentive to match text to variables,
 but keeping the cost high prevents overly greedy matches.
 Here is a example that illustrates the problems with greedy matches:
 
-Images matching `This is a {{object}}` with `This object is a string`.
+Imagine matching `This is a {{object}}` with `This object is a string`.
 If there is no cost to placing text in a variable, it is cheaper to make the match
 `This {{object is a string}}` than `This object is a {{string}}`
+
+I've modified the Levenshtein algorithm to remove substitutions.
+This is because it will cause characters near variables, such as commas,
+to be substituted with characters that should be in the variable rather than
+removed if they are missing from the input string.
 
 Ambiguity needs to be keep in mind when working with this code.
 The simplest example of an ambiguous template is `{{A}}{{B}}`.

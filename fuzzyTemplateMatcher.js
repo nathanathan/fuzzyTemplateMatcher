@@ -110,8 +110,7 @@ var fuzzyTemplateMatch = (function(){
   
       if (vAtOffset) {
         pftms.push(setVarRange(vAtOffset.vName, lenA, addLd(0.99, ftmRecurse(lenA - 1, lenB))));
-        pftms.push(setVarRange(vAtOffset.vName, lenA, addLd(0.99, ftmRecurse(lenA - 1, lenB - 1))));
-        pftms.push(startVarRange(vAtOffset.vName, lenA, addLd(1, ftmRecurse(lenA, lenB - 1))));
+        pftms.push(startVarRange(vAtOffset.vName, lenA, ftmRecurse(lenA, lenB - 1)));
       }
       else {
         pftms.push(addLd(1, ftmRecurse(lenA, lenB - 1)));
@@ -120,7 +119,9 @@ var fuzzyTemplateMatch = (function(){
           pftms.push(ftmRecurse(lenA - 1, lenB - 1));
         }
         else {
-          pftms.push(addLd(2, ftmRecurse(lenA - 1, lenB - 1)));
+          //I've modified the standard ld algorithm here
+          //so that substitutions have a cost of 2.
+          //pftms.push(addLd(1, ftmRecurse(lenA - 1, lenB - 1)));
         }
       }
   
