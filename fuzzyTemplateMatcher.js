@@ -1,4 +1,5 @@
 var fuzzyTemplateMatch = (function(){
+  var VARIABLE_LD = 0.99;
   function find(arr, fun) {
     for (var i = 0; i < arr.length; i++) {
       if (fun(arr[i])) return arr[i];
@@ -109,8 +110,12 @@ var fuzzyTemplateMatch = (function(){
       });
   
       if (vAtOffset) {
-        pftms.push(setVarRange(vAtOffset.vName, lenA, addLd(0.99, ftmRecurse(lenA - 1, lenB))));
-        pftms.push(startVarRange(vAtOffset.vName, lenA, ftmRecurse(lenA, lenB - 1)));
+        pftms.push(
+          setVarRange(
+            vAtOffset.vName, lenA, addLd(
+              VARIABLE_LD, ftmRecurse(lenA - 1, lenB))));
+        pftms.push(
+          startVarRange(vAtOffset.vName, lenA, ftmRecurse(lenA, lenB - 1)));
       }
       else {
         pftms.push(addLd(1, ftmRecurse(lenA, lenB - 1)));
@@ -137,9 +142,12 @@ var fuzzyTemplateMatch = (function(){
       });
     });
     var result = ftmRecurse(stringyString.length, templateString.length);
+    var varialbeTextLength = 0;
     result.vars.forEach(function(v, i) {
       v.value = stringyString.slice(v.start, v.end);
+      varialbeTextLength += v.value.length;
     });
+    result.adjustedLd = Math.round(result.ld - (varialbeTextLength * VARIABLE_LD));
     return result;
   }
   return fuzzyTemplateMatch;
