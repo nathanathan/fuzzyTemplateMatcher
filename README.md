@@ -15,11 +15,11 @@ This code could probably be optimized quite a bit. There may be a way to do this
 O(m (1 + d)) time (where m is the string or template length and d is the Levenshtein distance),
 as that is the best time complexity for computing Lev distance.
 
-Adding characters inside {{varialbles}} has a cost of .99.
-The idea is to make it so the algorithm include a matches some text to a variable
+Matches inside {{varialbles}} have a cost of .99.
+The idea is to make it so the algorithm matches text to a variable
 only if it doesn't match anything outside of the variable.
-Making the cost less than one provides an incentive to match text to variables,
-but keeping the cost high prevents overly greedy matches.
+Making the cost less than one provides an incentive to match text to variables rather than removing it,
+while keeping the cost high prevents overly greedy matches.
 Here is a example that illustrates the problems with greedy matches:
 
 Imagine matching `This is a {{object}}` with `This object is a string`.
